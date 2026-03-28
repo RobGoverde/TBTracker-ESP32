@@ -27,12 +27,19 @@
 //#define MOSI 21
 //#define CS 1
 
+// SPI interface pins for Lilygo T3-S3 SX1280PA 2.4GHz
+
+#define SCK 5
+#define MISO 3
+#define MOSI 6
+#define CS 7
+
 //============================================================================
 // SPI interface pin numbers
-#define SCK 36
-#define MISO 37
-#define MOSI 35
-#define CS 34
+//#define SCK 36
+//#define MISO 37
+//#define MOSI 35
+//#define CS 34
 
 //============================================================================
 // Define which radiochip you use
@@ -49,11 +56,12 @@
 //  For Horus all modules have a tone spacing of 270 except for the sx127x and
 //  RF69 modules which have a tone spacing of 244. 
 //============================================================================
-#define USE_SX127X
+//#define USE_SX127X
 // #define USE_LLCC68
 // #define USE_SX1268
 // #define USE_SX1262  
 // #define USE_RF69 
+#define USE_SX1280
 
 //============================================================================
 // Define the use of a TCXO
@@ -80,13 +88,21 @@
 //#define PIN_DIO1 20
 //
 // #define PIN_DIO2 -1  
-//============================================================================
-#define PIN_NSS 34
-#define PIN_DIO0 38
-#define PIN_BUSY 4     
-#define PIN_RESET 33
-#define PIN_DIO1 3
 
+// Use the pins below for the Lilygo T3-S3 SX1280PA 2.4GHz.
+#define PIN_NSS 7
+#define PIN_DIO0 -1
+#define PIN_BUSY 36     
+#define PIN_RESET 8
+#define PIN_DIO1 9
+
+//============================================================================
+//#define PIN_NSS 34
+//#define PIN_DIO0 38
+//#define PIN_BUSY 4     
+//#define PIN_RESET 33
+//#define PIN_DIO1 3
+//=============================================================================
 // PIN_DI02 is only used for AFSK-APRS
 // SX127x/RF69/SX126x/LLCC68 all can do AFSK-APRS when DIO2 is connected to the esp32
 #define PIN_DIO2 -1  
@@ -244,9 +260,9 @@
 //============================================================================
 #define LORA_ENABLED true        // Set to true if you want LoRa transmissions
 #define RECEIVING_ENABLED false  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
-#define LORA_PAYLOAD_ID "MYCALL-L"   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
-#define LORA_FREQUENCY 432.662   // in MHz
-#define LORA_MODE 2              // Mode 2 is usually used for simple telemetry data
+#define LORA_PAYLOAD_ID "N0CALL"   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
+#define LORA_FREQUENCY 2400.0    // in MHz
+#define LORA_MODE 24              // Mode 2 is usually used for simple telemetry data
                                  // Mode 1 is usually used for SSDV
                                  // Mode 2 is faster than mode 1 for ssdv but uses more bandwidth
                                  // If you have a sx1267 you best use mode 2as mode 1 sometimes does not decode.
@@ -339,7 +355,7 @@
 // static const int Rx = -1, Tx = 19;     // This will probably be different for your board
 //============================================================================
 // GPS Serial device pin numbers
-static const int Rx = 40, Tx = 39;     // This will probably be different for your board
+static const int Rx = -1, Tx = 38;     // This will probably be different for your board
 
 static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are 4800 baud.
 
@@ -417,7 +433,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define LORA_CODERATE 7       // Do not change, change LORA_MODE instead
 #define LORA_PREFIX "$$"      // Prefix for "Telemetry". Some older LoRa software does not accept a prefix of more than 2x "$"
 #define LORA_SYNCWORD 0x12    // Default syncword
-#define LORA_POWER 13         // in dBm between 2 and 17. 10 = 10mW (recommended)
+#define LORA_POWER 2         // in dBm between 2 and 17. 10 = 10mW (recommended)
 #define LORA_CURRENTLIMIT 100
 #define LORA_PREAMBLELENGTH 8
 #define LORA_GAIN 0

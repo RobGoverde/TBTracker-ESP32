@@ -22,6 +22,10 @@ SX1262 radio = new Module(PIN_NSS, PIN_DIO1, PIN_RESET, PIN_BUSY);
 #else
 #if defined(USE_RF69)
 RF69 radio = new Module(PIN_NSS, PIN_DIO0, PIN_RESET);
+#else
+#if defined(USE_SX1280)
+SX1280 radio = new Module(PIN_NSS, PIN_DIO1, PIN_RESET, PIN_BUSY);
+#endif
 #endif
 #endif
 #endif
@@ -85,8 +89,11 @@ void SendAPRS() {
 #if defined(USE_RF69)
   Radiolib_assert(radio.begin(APRS_AFSK_FREQUENCY + APRS_AFSK_FREQ_OFFSET));
 #else  
+#if defined(USE_SX1280) //4FSK not available on this module.
+#else  
   Radiolib_assert(radio.beginFSK(APRS_AFSK_FREQUENCY + APRS_AFSK_FREQ_OFFSET));
 #endif  
+#endif
   Radiolib_assert(radio.setOutputPower(APRS_AFSK_POWER));
   // If we get this far, the radio is initialized
   // initialize AX.25 client
@@ -193,6 +200,11 @@ void SetupFSK() {
 #else
 #if defined (USE_RF69)  
   Radiolib_assert(radio.begin(FSK_FREQUENCY, FSK_BITRATE, FSK_FREQDEV, FSK_RXBANDWIDTH_sx127, FSK_POWER, FSK_PREAMBLELENGTH));
+#else
+#if defined (USE_SX1280)  
+radio.setRfSwitchPins(21, 10);
+  Radiolib_assert(radio.beginGFSK(FSK_FREQUENCY, FSK_BITRATE, FSK_FREQDEV, FSK_POWER )); 
+#endif
 #endif
 #endif
 #endif
@@ -275,6 +287,13 @@ void SetupLoRa(int aMode) {
       LoRaSettings.Frequency = LORA_FREQUENCY;
       break;
 
+    case 24:
+      LoRaSettings.CodeRate = 7;
+      LoRaSettings.Bandwidth = 203.125;
+      LoRaSettings.SpreadFactor = 9;
+      LoRaSettings.Frequency = LORA_FREQUENCY;
+      break;  
+
     case 97:  // LORA-APRS UK Frequency
       LoRaSettings.CodeRate = 5;
       LoRaSettings.Bandwidth = 125;
@@ -340,6 +359,18 @@ void SetupLoRa(int aMode) {
       LoRaSettings.PreambleLength,
       USE_TCXO));
 #else      
+#if defined(USE_SX1280)
+radio.setRfSwitchPins(21, 10);
+  Radiolib_assert(
+    radio.begin(
+      LoRaSettings.Frequency,
+      LoRaSettings.Bandwidth,
+      LoRaSettings.SpreadFactor,
+      LoRaSettings.CodeRate,
+      LoRaSettings.SyncWord,
+      LoRaSettings.Power,
+      LoRaSettings.PreambleLength));
+#else      
   Radiolib_assert(
     radio.begin(
       LoRaSettings.Frequency,
@@ -353,8 +384,24 @@ void SetupLoRa(int aMode) {
 #endif
 #endif
 #endif
-
+ #if defined(USE_SX1280) //This worked a bit different for the SX1280. Also got CRC errors so disabled (for now).
   switch (LORA_MODE) {
+    case 0:
+      Radiolib_assert(radio.explicitHeader());
+      Radiolib_assert(radio.setCRC(false));
+      break;
+    case 1:
+      Radiolib_assert(radio.implicitHeader(PACKETLEN));
+      Radiolib_assert(radio.setCRC(false));
+      break;
+    default:
+      Radiolib_assert(radio.explicitHeader());
+      Radiolib_assert(radio.setCRC(false));
+      break;
+  }
+  #else
+
+switch (LORA_MODE) {
     case 0:
       Radiolib_assert(radio.explicitHeader());
       Radiolib_assert(radio.forceLDRO(true));
@@ -371,6 +418,8 @@ void SetupLoRa(int aMode) {
       Radiolib_assert(radio.setCRC(true));
       break;
   }
+#endif
+#endif
 #endif
 }
 
@@ -677,9 +726,12 @@ void FreqCalibration(float Frequency) {
 #if defined(USE_RF69)  
   Radiolib_assert(radio.begin());
 #else
+#if defined(USE_SX1280) //4FSK not available for this module. 
+  Radiolib_assert(radio.begin());
+#else
   Radiolib_assert(radio.beginFSK());
 #endif  
-
+#endif
   // Starting fsk4
   toSerialConsole("Starting Radio...");
   Radiolib_assert(fsk4.begin(Frequency, 270, 100));
