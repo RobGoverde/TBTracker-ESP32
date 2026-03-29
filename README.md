@@ -1,3 +1,9 @@
+# In this fork I want to implement some own ideas for TBTracker by Roel Kroes.
+
+- 2.4GHz support for faster SSDV transfer. (2.4GHz tested ok for telemetry, SSDV still needed to be tested.) **[Added to main.]**
+- Remote controlled burst through a LoRa command. (Not yet implemented.)
+- Preset choices instead of changing multiple settings. (Not yet implemented.)
+
 # 2.4 GHz support
 This fork adds LoRa 2.4GHz support with a SX1280 radio module to TBTracker-ESP32.
 It is developed and tested on a LilyGO T3-S3 SX1280PA board but future tracker builds are on the way.
