@@ -360,6 +360,17 @@ void SetupLoRa(int aMode) {
       USE_TCXO));
 #else      
 #if defined(USE_SX1280)
+  Radiolib_assert(
+    radio.begin(
+      LoRaSettings.Frequency,
+      LoRaSettings.Bandwidth,
+      LoRaSettings.SpreadFactor,
+      LoRaSettings.CodeRate,
+      LoRaSettings.SyncWord,
+      LoRaSettings.Power,
+      LoRaSettings.PreambleLength));
+#else      
+#if defined(USE_SX1280PA)
 radio.setRfSwitchPins(21, 10);
   Radiolib_assert(
     radio.begin(
@@ -381,6 +392,7 @@ radio.setRfSwitchPins(21, 10);
       LoRaSettings.Power,
       LoRaSettings.PreambleLength,
       LoRaSettings.Gain));
+#endif
 #endif
 #endif
 #endif

@@ -2,9 +2,9 @@
 // Here you can make custom presets to enable setting up for different boards 
 // without changing all the pins.
 //============================================================================
-//Settings based on TBTracker by Roel Kroes.
+//Settings based on TBTracker-ESP32 by Roel Kroes.
 
-  //SPI:
+ //SPI:
   #define SCK 5
   #define MISO 3
   #define MOSI 6
@@ -18,9 +18,9 @@
   #define PIN_DIO1 9
   #define PIN_DIO2 -1  
   #define USE_TCXO 0.0
-  #define USE_SX1280
+  #define USE_SX1280PA //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
   
-  //GPS:
+//GPS:
 static const int Rx = -1, Tx = 38;     // This will probably be different for your board
 static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are 4800 baud.
   
@@ -35,12 +35,14 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
   // #define USE_VOLTAGE_IN_APRS     // If you uncomment this, the voltage information will be added to the APRS comment field
   // #define SDA_PIN 46  // your SDA pin for the I2C protocol (needed for BME280 sensor)
   // #define SCL_PIN 2  // your SCL pin for the I2C protocol (needed for BME280 sensor) 
-  //Modulation:
+  
+  
+//Modulation:
  
 //Lora
 #define LORA_ENABLED true        // Set to true if you want LoRa transmissions
 #define RECEIVING_ENABLED false  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
-#define LORA_PAYLOAD_ID "N0CALL"   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
+#define LORA_PAYLOAD_ID YOUR_LORA_CALL   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
 #define LORA_FREQUENCY 2400.0    // in MHz
 #define LORA_MODE 24              // Mode 2 is usually used for simple telemetry data
 #define LORA_REPEATS 1           // number of LoRa transmits during a cycle
@@ -61,7 +63,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define LORA_APRS_WORLD_ENABLED true     // Set to true if you want LORA-APRS transmissions on the world frequency 433.775 (LORA_APRS_ENABLED must be set to true)
 #define LORA_APRS_PL_ENABLED true        // Set to True if you want LORA-APRS transmissions on the Poland frequency 434.855 (LORA_APRS_ENABLED must be set to true)
 #define LORA_APRS_UK_ENABLED true        // Set to True if you want LORA-APRS transmissions on the UK frequency 439.9125 (LORA_APRS_ENABLED must be set to true)
-#define LORA_APRS_PAYLOAD_ID "NOCALL"    // CHANGE THIS. This will show on Sondehub. For LORA-APRS this should be a HAM call without SSID.
+#define LORA_APRS_PAYLOAD_ID YOUR_CALL    // CHANGE THIS. This will show on Sondehub. For LORA-APRS this should be a HAM call without SSID.
 #define LORA_APRS_SSID "-11"             // 11 is the symbol for balloon. Use quotes like this: "-11"
 #define LORA_APRS_MODE 99                // Do not change
 #define LORA_APRS_MODE_PL 98             // Do not change
@@ -79,7 +81,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define HORUS_V1_ENABLED false       // Set to true if you want HorusBinary V1 transmissions (you can do V1, V2 and V3 transmissions on the same tracker)
 #define HORUS_V2_ENABLED false       // Set to true if you want HorusBinary V2 transmissions
 #define HORUS_V3_ENABLED false       // Set to true if you want HorusBinary V3 transmissions (recommended Horus mode)
-#define HORUS_V3_CALLSIGN "MYCALL"   // Horus V3 callsign and is free to choose but keep it AS SHORT AS POSSIBLE (adding V3 in the call is not necessary and not recommended)
+#define HORUS_V3_CALLSIGN YOUR_CALL   // Horus V3 callsign and is free to choose but keep it AS SHORT AS POSSIBLE (adding V3 in the call is not necessary and not recommended)
 #define HORUS_V3_CUSTOM_FIELDS       // if defined will include custom fields into the Horus transmission
                                      // two fields have been already added as custom fields in this code:
                                      // 1. gps speed (currently set to 'do not show' in TBTracker-ESP32.ini)
@@ -99,7 +101,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 
 //AFSK:
 #define APRS_AFSK_ENABLED false      // Set this to true if you want APRS transmissions
-#define APRS_AFSK_CALLSIGN "NOCALL"  // CHANGE THIS and use quotation marks. This will show on Sondehub. For APRS this should be a HAM call without SSID.
+#define APRS_AFSK_CALLSIGN YOUR_CALL  // CHANGE THIS and use quotation marks. This will show on Sondehub. For APRS this should be a HAM call without SSID.
 #define APRS_AFSK_LOOPTIME 180       // Transmit APRS every xx seconds. Set this to something >= 120 seconds
 #define APRS_AFSK_SSID 11            // SSID. You can use 11 for a HAM balloon
 #define APRS_AFSK_PREAMBLE 100       // I got good results with 100 but you can go as low as 8
@@ -122,7 +124,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 
  //RTTY
 #define RTTY_ENABLED false        // Set to true if you want RTTY transmissions
-#define RTTY_PAYLOAD_ID "MYCALL"  // This will show on Sondehub. Payload ID for RTTY protocol. CHANGE THIS!
+#define RTTY_PAYLOAD_ID YOUR_CALL  // This will show on Sondehub. Payload ID for RTTY protocol. CHANGE THIS!
 #define RTTY_FREQUENCY 437.600    // in MHz
 #define RTTY_SHIFT 610            // 610 is usually a good value. 
 #define RTTY_BAUD 100             // Baud rate. You should set this to 50 or 100 usually
@@ -139,13 +141,13 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 
 // SSDV 
 // Uncomment below to activate SSDV:
-// #define USE_SSDV   
+#define USE_SSDV   
 #define CAMERA_MODEL_ESP32S3_EYE  //See list in TBTracker.
 #define FLIP_HORIZONTAL true      // Camera is usually mounted in selfie mode. Set to true if the picture needs mirroring hotizontally
 #define FLIP_VERTICAL false       // Set to true if the picture needs mirroring vertically (usually not the case)
 
 // High res settings (save to SD)
-#define SSDV_HIGHRES true         // Set to true if you want to take high res pictures and save those to SD card 
+#define SSDV_HIGHRES false         // Set to true if you want to take high res pictures and save those to SD card 
 #define SSDVHIGHRES_LOOPTIME 30   // take a high res picture and save to SD every xx seconds 
 #define HIGHRES_RESOLUTION  4     // 1 = 1600x1200 (all sensors, OV2640, OV3660 and OV5640)
                                   // 2 = 1920x1080 (3MP and 5MP sensors, OV3660 and OV5640) 
@@ -157,6 +159,6 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define SSDV_LOWRES  true        // Set to true if you want to send low res images over LoRa Mode 1
 #define SSDV_LOWRES_SAVE false   // Set to true if you want the low res pictures saved to SD card, false if not
 #define SSDVLOWRES_LOOPTIME 10   // take a low res picture, transmit the picture, wait SSDVLOWRES_LOOPTIME seconds, take the next lowres picture 
-#define CALLSIGN_SSDV "MY_CAM"   // max 6 chars!
+#define CALLSIGN_SSDV YOUR_CALL   // max 6 chars!
 #define LOWRES_RESOLUTION 2      // 1=320x240, 2=640x480, 3=800x600, 4=1024x768
 #define LOWRES_QUALITY 4         // 0..7 with 7=best. Above 4 the improvements were not detectable

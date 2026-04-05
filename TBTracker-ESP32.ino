@@ -6,7 +6,8 @@
 //  Have FUN!
 //============================================================================
 
-#include "presets/T3S3_GHz.h" //Load the preset for the chosen board.
+#include "Settings.h"
+#include "presets/S3_Dev_SSDV_GHz.h" //Load the preset for the chosen board.
 #include <RadioLib.h>
 #include <SPI.h>
 #include "esp32-hal-cpu.h"
