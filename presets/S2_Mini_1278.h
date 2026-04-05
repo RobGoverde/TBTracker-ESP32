@@ -5,23 +5,23 @@
 //Settings based on TBTracker-ESP32 by Roel Kroes.
 
  //SPI:
-  #define SCK 5
-  #define MISO 3
-  #define MOSI 6
-  #define CS 7
+  #define SCK 36
+  #define MISO 37
+  #define MOSI 35
+  #define CS 34
   
   //Radio:
-  #define PIN_NSS 7
-  #define PIN_DIO0 -1
-  #define PIN_BUSY 36     
-  #define PIN_RESET 8
-  #define PIN_DIO1 9
-  #define PIN_DIO2 -1  
+  #define PIN_NSS 34
+  #define PIN_DIO0 38
+  #define PIN_BUSY 4     
+  #define PIN_RESET 33
+  #define PIN_DIO1 3
+  #define PIN_DIO2 4  
   #define USE_TCXO 0.0
-  #define USE_SX1280PA //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
+  #define USE_SX1278 //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
   
 //GPS:
-static const int Rx = -1, Tx = 38;     // This will probably be different for your board
+static const int Rx = -1, Tx = 39;     // This will probably be different for your board
 static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are 4800 baud.
   
 //Sensors:
@@ -40,11 +40,11 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 //Modulation:
  
 //Lora
-#define LORA_ENABLED true        // Set to true if you want LoRa transmissions
+#define LORA_ENABLED false        // Set to true if you want LoRa transmissions
 #define RECEIVING_ENABLED false  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
 #define LORA_PAYLOAD_ID YOUR_LORA_CALL   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
-#define LORA_FREQUENCY 2400.0    // in MHz
-#define LORA_MODE 24              // Mode 2 is usually used for simple telemetry data
+#define LORA_FREQUENCY 432.662    // in MHz
+#define LORA_MODE 2              // Mode 2 is usually used for simple telemetry data
 #define LORA_REPEATS 1           // number of LoRa transmits during a cycle
 #define LORA_LOOPTIME 40         // Transmit LoRa every xx seconds
 #define LORA_FREQ_OFFSET 0.0     // Frequency deviation in MHz. Will be added to the LoRa frequency. Should be a float and can be negative.
@@ -141,7 +141,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 
 // SSDV 
 // Uncomment below to activate SSDV:
-#define USE_SSDV   
+//#define USE_SSDV   
 #define CAMERA_MODEL_ESP32S3_EYE  //See list in TBTracker.
 #define FLIP_HORIZONTAL true      // Camera is usually mounted in selfie mode. Set to true if the picture needs mirroring hotizontally
 #define FLIP_VERTICAL false       // Set to true if the picture needs mirroring vertically (usually not the case)

@@ -4,24 +4,24 @@
 //============================================================================
 //Settings based on TBTracker-ESP32 by Roel Kroes.
 
- //SPI:
-  #define SCK 5
-  #define MISO 3
-  #define MOSI 6
-  #define CS 7
+  //SPI:
+  #define SCK 47
+  #define MISO 14
+  #define MOSI 21
+  #define CS 1
   
   //Radio:
-  #define PIN_NSS 7
+  #define PIN_NSS 1
   #define PIN_DIO0 -1
-  #define PIN_BUSY 36     
-  #define PIN_RESET 8
-  #define PIN_DIO1 9
+  #define PIN_BUSY 41     
+  #define PIN_RESET 42
+  #define PIN_DIO1 20
   #define PIN_DIO2 -1  
   #define USE_TCXO 0.0
-  #define USE_SX1280PA //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
+  #define USE_SX1280 //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
   
 //GPS:
-static const int Rx = -1, Tx = 38;     // This will probably be different for your board
+static const int Rx = -1, Tx = 8;     // This will probably be different for your board
 static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are 4800 baud.
   
 //Sensors:
