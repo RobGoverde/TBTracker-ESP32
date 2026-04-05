@@ -18,7 +18,7 @@
   #define PIN_DIO1 3
   #define PIN_DIO2 4  
   #define USE_TCXO 0.0
-  #define USE_SX1278 //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
+  #define USE_SX127X //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
   
 //GPS:
 static const int Rx = -1, Tx = 39;     // This will probably be different for your board
@@ -81,7 +81,6 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define HORUS_V1_ENABLED false       // Set to true if you want HorusBinary V1 transmissions (you can do V1, V2 and V3 transmissions on the same tracker)
 #define HORUS_V2_ENABLED false       // Set to true if you want HorusBinary V2 transmissions
 #define HORUS_V3_ENABLED false       // Set to true if you want HorusBinary V3 transmissions (recommended Horus mode)
-#define HORUS_V3_CALLSIGN YOUR_CALL   // Horus V3 callsign and is free to choose but keep it AS SHORT AS POSSIBLE (adding V3 in the call is not necessary and not recommended)
 #define HORUS_V3_CUSTOM_FIELDS       // if defined will include custom fields into the Horus transmission
                                      // two fields have been already added as custom fields in this code:
                                      // 1. gps speed (currently set to 'do not show' in TBTracker-ESP32.ini)

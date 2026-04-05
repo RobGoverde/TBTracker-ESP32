@@ -9,7 +9,7 @@ Rob Goverde - PD7BOR
 ============================================================================*/
 
 //Chose preset file:
-#include "presets/S3_Dev_SSDV_GHz.h" 
+#include "presets/S2_Mini_1278.h" 
 
 //== Personal settings: ==
 
@@ -17,7 +17,7 @@ Rob Goverde - PD7BOR
 #define YOUR_CALL "N0CALL"
 
 //LoRa Setup:
-#define YOUR_LORA_CALL "N0CALL-11" //Differen setup because it needs the SSID in it. (For now.)
+#define YOUR_LORA_CALL "N0CALL-L" //Differen setup because it needs the SSID in it. (For now.)
 #define LORA_APRS_SSID "-11"
 
 //Horus setup:
