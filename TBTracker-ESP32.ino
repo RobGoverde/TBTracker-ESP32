@@ -5,7 +5,8 @@
 //  
 //  Have FUN!
 //============================================================================
-#include "Settings.h"
+
+#include "presets/T3S3_GHz.h" //Load the preset for the chosen board.
 #include <RadioLib.h>
 #include <SPI.h>
 #include "esp32-hal-cpu.h"
@@ -100,6 +101,7 @@ struct HorusBinaryPacketV2 {
 //  
 // Normally no change necessary
 //============================================================================
+#define ALLOWDEBUG
 #define HORUS_UNCODED_BUFFER_SIZE 512
 #define HORUS_CODED_BUFFER_SIZE 512
 uint8_t rawbuffer[HORUS_UNCODED_BUFFER_SIZE];    // Buffer to temporarily store a raw binary packet.

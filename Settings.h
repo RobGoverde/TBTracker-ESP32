@@ -1,3 +1,13 @@
+//Preset experiment through seperate .h files per board in subfolder "preset".
+//This setting files now only exist to look back at the settings and comments.
+//SSDV not yet implemented in de current preset.
+//Select the preset in the TBTracker-ESP32.ino tab line 9.
+
+//Very much experimental still.
+
+//Rob - PD7BOR
+//============================================================================
+
 //============================================================================
 // Important: CHANGE THE SETTINGS BELOW so it matches your configuration
 //============================================================================
@@ -8,8 +18,7 @@
 // console for debugging and general info
 // It is recommended you leave this defined when testing your tracker
 //============================================================================
-#define ALLOWDEBUG
-
+//#define ALLOWDEBUG
 //============================================================================
 // PIN NUMBERS for the RF modules and SPI interface
 //  
@@ -29,10 +38,10 @@
 
 // SPI interface pins for Lilygo T3-S3 SX1280PA 2.4GHz
 
-#define SCK 5
-#define MISO 3
-#define MOSI 6
-#define CS 7
+//#define SCK 5
+//#define MISO 3
+//#define MOSI 6
+//#define CS 7
 
 //============================================================================
 // SPI interface pin numbers
@@ -61,6 +70,7 @@
 // #define USE_SX1268
 // #define USE_SX1262  
 // #define USE_RF69 
+/*
 #define USE_SX1280
 
 //============================================================================
@@ -454,3 +464,4 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define FSK_ENABLEOOK false
 #define FSK_DATASHAPING 0.5
 #define FSK_USERREGULATORLDO false
+*/
