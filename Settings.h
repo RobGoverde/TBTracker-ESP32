@@ -2,12 +2,16 @@
 Preset experiment through seperate .h files per board in subfolder "preset".
 Here you can still enter you general settings.
 
-Select the preset in the TBTracker-ESP32.ino tab line 10.
+Select the preset file and enter your callsign here first.
+You can either edit an existing preset file or copy and edit a new one in the preset folder.
 
 Rob Goverde - PD7BOR
 ============================================================================*/
 
-//Personal settings:
+//Chose preset file:
+#include "presets/S3_Dev_SSDV_GHz.h" 
+
+//== Personal settings: ==
 
 //ENTER YOU CALLSIGN: (For all modes except Horus and LoRa.)
 #define YOUR_CALL "N0CALL"
