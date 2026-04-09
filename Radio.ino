@@ -294,6 +294,13 @@ void SetupLoRa(int aMode) {
       LoRaSettings.Frequency = LORA_FREQUENCY;
       break;  
 
+    case 25: // Full SX1280 Bandwidth!
+      LoRaSettings.CodeRate = 7;
+      LoRaSettings.Bandwidth = 1625.0;
+      LoRaSettings.SpreadFactor = 9;
+      LoRaSettings.Frequency = LORA_FREQUENCY;
+      break;  
+
     case 97:  // LORA-APRS UK Frequency
       LoRaSettings.CodeRate = 5;
       LoRaSettings.Bandwidth = 125;
