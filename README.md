@@ -26,8 +26,8 @@ The code is written in the Arduino IDE for ESP32 with a GPS module and a LoRa or
 
 You will need to install two extra Arduino library from the library manager:
 
-- Radiolib
-- TinyGPS++
+- Radiolib by Jan Gromes
+- TinyGPSPlus by Mikal Hart
 
 The program also supports the BME280 environment sensor. If you enable that code, you will need to install the BME280 library by Tyler Glenn from the Arduino library manager.
 
@@ -43,7 +43,8 @@ The minimal hardware configuration you need is:
 # Hardware example
 
 Rob Goverde (PD7BOR) made a 2.5-gram ultralight tracker with only four parts. Best of all, he documented his project beautifully.
-You can find his work here: https://www.robgoverde.nl/ct62-balloon-tracker-how-to-english/ .
+You can find his work here: https://www.robgoverde.nl/ct62-ballon-tracker-how-to/
+It's written in Dutch, but if you don't speak the language, Google Translate should be a big help.
 
 <img src="example_build1.jpg" title="" alt="" width="332">
 
@@ -65,7 +66,7 @@ See: https://github.com/projecthorus
 
 # SSDV
 
-As of Version 0.5.1 TBTracker supports SSDV. I used code for SSDV from [Philip Heron](https://github.com/fsphil) and was inspired by the work of [Kevin Walton](https://github.com/KevWal). This is still very much experimental. We tested it using an ESP32-S3 N16R8 Devboard with 16MB Flash, 8MB PSRAM and a camera interface. I recommend the OV5640 camera's. 
+As of Version 0.5.1 TBTracker supports SSDV. I used code for SSDV from [Philip Heron]([fsphil (Philip Heron) · GitHub](https://github.com/fsphil)) and was inspired by the work of [Kevin Walton]([KevWal (Kevin Walton) · GitHub](https://github.com/KevWal)). This is still very much experimental. We tested it using an ESP32-S3 N16R8 Devboard with 16MB Flash, 8MB PSRAM and a camera interface. I recommend the OV5640 camera's. 
 
 With SSDV, a GPS, a sx1278, a SD card and a BME280 sensor, pin assignment becomes critical. Settings.h has a working example of the pins you can use with the ESP32-S3 N16R8.
 
@@ -89,11 +90,22 @@ At this moment APRS with AFSK only works on the "original" ESP32 series and not 
 
 # Versions
 
+V0.5.3
+
+- Optionally show GPS data on transmitted SSDV pictures using a bitmap font
+
+- Solved a bug which caused Horus Binary V3 packets to not decode [**issue #14**](https://github.com/RoelKroes/TBTracker-ESP32/issues/14)
+
+- Restructured the settings file (again)
+
 V0.5.2
 
 - Save pictures in a map with the current date as name
+
 - Make each picture filename unique
+
 - Low Res SSDV pictures  can now optionally be saved to SD card
+
 - You can now add a number of seconds between taking Low Res pictures for SSDV.
 
 V0.5.1
