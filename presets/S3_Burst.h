@@ -12,8 +12,8 @@
   
   //Radio:
   #define PIN_NSS 1
-  #define PIN_DIO0 -1
-  #define PIN_BUSY 41     
+  #define PIN_DIO0 41
+  #define PIN_BUSY -1     
   #define PIN_RESET 42
   #define PIN_DIO1 20
   #define PIN_DIO2 -1  
@@ -41,9 +41,9 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
  
 //Lora
 #define LORA_ENABLED true        // Set to true if you want LoRa transmissions
-#define RECEIVING_ENABLED false  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
+#define RECEIVING_ENABLED true  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
 #define LORA_PAYLOAD_ID YOUR_LORA_CALL   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
-#define LORA_FREQUENCY 437.600    // in MHz
+#define LORA_FREQUENCY 432.662    // in MHz
 #define LORA_MODE 2              // Mode 2 is usually used for simple telemetry data
 #define LORA_REPEATS 1           // number of LoRa transmits during a cycle
 #define LORA_LOOPTIME 40         // Transmit LoRa every xx seconds
@@ -163,4 +163,4 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define LOWRES_QUALITY 4         // 0..7 with 7=best. Above 4 the improvements were not detectable
 
 //Special
-const int burstPin = -1; //Pin for remote burst command. (Set high when activated.)
+const int burstPin = 3; //Pin for remote burst command. (Set high when activated.)

@@ -45,7 +45,7 @@ void ProcessRXPacket() {
     if (mw2.indexOf("BURST") >= 0){toSerialConsole(">>>>>>>>>>>>>>> BURST ! <<<<<<<<<<<<<");
      digitalWrite(burstPin, HIGH);
       toSerialConsole("High\t");
-      delay(2000);
+      delay(5000);
       digitalWrite(burstPin, LOW);
     }
     else toSerialConsole("!!!> You did'nt say the magic word! <!!!");

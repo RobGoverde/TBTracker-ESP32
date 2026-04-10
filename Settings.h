@@ -10,7 +10,7 @@ Rob Goverde - PD7BOR
 ============================================================================*/
 
 //Chose board specific preset file:
-#include "presets/S3_Dev_SSDV_1280.h" //Please see the /preset/ folder.
+#include "presets/S3_Burst.h" //Please see the /preset/ folder.
 
 //Chose callsign presets
 #include "presets/CALL_PD7BOR.h" //Edit the CALL.h file in the "preset" folder with your own call or make a copy of it with an added _YOURCALL.

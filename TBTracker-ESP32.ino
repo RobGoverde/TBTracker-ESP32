@@ -435,6 +435,9 @@ void setup() {
 
   // Setup the Radio
   ResetRadio();
+
+  // Setup Burst Pin
+  pinMode(burstPin,OUTPUT);
   
 #if defined(USE_BME280)
   // Initialize the BME280 sensor if available
