@@ -93,19 +93,14 @@ At this moment APRS with AFSK only works on the "original" ESP32 series and not 
 V0.5.3
 
 - Optionally show GPS data on transmitted SSDV pictures using a bitmap font
-
 - Solved a bug which caused Horus Binary V3 packets to not decode [**issue #14**](https://github.com/RoelKroes/TBTracker-ESP32/issues/14)
-
 - Restructured the settings file (again)
 
 V0.5.2
 
 - Save pictures in a map with the current date as name
-
 - Make each picture filename unique
-
 - Low Res SSDV pictures  can now optionally be saved to SD card
-
 - You can now add a number of seconds between taking Low Res pictures for SSDV.
 
 V0.5.1
