@@ -162,18 +162,61 @@ String getTimeLocationString()
   result += " ";
 
   // Coördinates and Altitude
-  result += String(UGPS.Longitude, 4);
-  result += " ";
   result += String(UGPS.Latitude, 4);
   result += " ";
-  result += String(UGPS.Altitude);
-
-  // Add an random string for pictures when there is no GPS lock
+  result += String(UGPS.Longitude, 4);
   result += " ";
-  result += generateRandomString(8);
+  
+  result += String(UGPS.Altitude);
 
   return result;
 }
+
+//============================================================================
+// Create a string with coordinates and time for the JPEG low res image
+//============================================================================
+String getJPGOverlayString() 
+{
+  String result = "";
+
+  // Date: YYYY-MM-DD
+  result += String(UGPS.Year);
+  result += "-";
+  if (UGPS.Month < 10) result += "0";
+  result += String(UGPS.Month);
+  result += "-";
+  if (UGPS.Day < 10) result += "0";
+  result += String(UGPS.Day);
+
+  result += " ";
+
+  // Time: HH:MM:SS 
+  if (UGPS.Hours < 10) result += "0";
+  result += String(UGPS.Hours);
+  result += ":";
+  if (UGPS.Minutes < 10) result += "0";
+  result += String(UGPS.Minutes);
+  result += ":";
+  if (UGPS.Seconds < 10) result += "0";
+  result += String(UGPS.Seconds);
+  result += 'z';
+
+  result += " ";
+
+  // Coördinates and Altitude
+  result += "lat: ";
+  result += String(UGPS.Latitude, 4);
+  result += " ";
+  result += "lon: ";
+  result += String(UGPS.Longitude, 4);
+  result += " ";
+  result += "alt: ";
+  result += String(UGPS.Altitude);
+  result += "m";
+
+  return result;
+}
+
 
 //============================================================================
 // Print all GPS data for debugging and conveniance

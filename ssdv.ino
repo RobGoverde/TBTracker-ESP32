@@ -10,6 +10,8 @@
 #include "soc/soc.h"           // Brownout preventie
 #include "soc/rtc_cntl_reg.h"
 #include "ssdv.h"
+#include "fb_gfx.h"
+#include "img_converters.h"
 
 #define IMG_BUFF_SIZE 128   // size of the buffer feeding SSDV process
 #define LORA_BUFFER  255   // size of the lora packet buffer
@@ -17,16 +19,132 @@
 //============================================================================
 // Globals
 //============================================================================
+
+const unsigned char font8x8_basic[] = {
+    // Space (index 0)
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    // (index 1-10)
+    0x3C, 0x46, 0x4A, 0x52, 0x62, 0x3C, 0x00, 0x00, // 0
+    0x18, 0x28, 0x08, 0x08, 0x08, 0x3E, 0x00, 0x00, // 1
+    0x3C, 0x42, 0x02, 0x3C, 0x40, 0x7E, 0x00, 0x00, // 2
+    0x3C, 0x42, 0x0C, 0x02, 0x42, 0x3C, 0x00, 0x00, // 3
+    0x08, 0x18, 0x28, 0x48, 0x7E, 0x08, 0x00, 0x00, // 4
+    0x7E, 0x40, 0x7C, 0x02, 0x42, 0x3C, 0x00, 0x00, // 5
+    0x3C, 0x40, 0x7C, 0x42, 0x42, 0x3C, 0x00, 0x00, // 6
+    0x7E, 0x02, 0x04, 0x08, 0x10, 0x10, 0x00, 0x00, // 7
+    0x3C, 0x42, 0x3C, 0x42, 0x42, 0x3C, 0x00, 0x00, // 8
+    0x3C, 0x42, 0x42, 0x3E, 0x02, 0x3C, 0x00, 0x00, // 9
+    // (index 11-13)
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x0C, 0x00, // . 
+    0x00, 0x0C, 0x0C, 0x00, 0x0C, 0x0C, 0x00, 0x00, // : 
+    0x00, 0x00, 0x00, 0x3C, 0x00, 0x00, 0x00, 0x00, // - 
+    // (index 14-39)
+    0x00, 0x00, 0x38, 0x04, 0x3C, 0x44, 0x3A, 0x00, // a
+    0x00, 0x40, 0x7C, 0x42, 0x42, 0x42, 0x7C, 0x00, // b
+    0x00, 0x00, 0x3C, 0x40, 0x40, 0x42, 0x3C, 0x00, // c
+    0x00, 0x02, 0x3E, 0x42, 0x42, 0x42, 0x3E, 0x00, // d
+    0x00, 0x00, 0x3C, 0x42, 0x7E, 0x40, 0x3C, 0x00, // e
+    0x00, 0x1C, 0x22, 0x78, 0x20, 0x20, 0x70, 0x00, // f
+    0x00, 0x00, 0x3E, 0x42, 0x42, 0x3E, 0x02, 0x3C, // g
+    0x00, 0x40, 0x7C, 0x42, 0x42, 0x42, 0x42, 0x00, // h
+    0x00, 0x08, 0x00, 0x18, 0x08, 0x08, 0x1C, 0x00, // i
+    0x00, 0x04, 0x00, 0x0C, 0x04, 0x04, 0x44, 0x38, // j
+    0x00, 0x40, 0x44, 0x48, 0x70, 0x48, 0x44, 0x00, // k
+    0x00, 0x18, 0x08, 0x08, 0x08, 0x08, 0x1C, 0x00, // l
+    0x00, 0x00, 0x6C, 0x92, 0x92, 0x92, 0x92, 0x00, // m
+    0x00, 0x00, 0x7C, 0x42, 0x42, 0x42, 0x42, 0x00, // n
+    0x00, 0x00, 0x3C, 0x42, 0x42, 0x42, 0x3C, 0x00, // o
+    0x00, 0x00, 0x7C, 0x42, 0x42, 0x7C, 0x40, 0x40, // p
+    0x00, 0x00, 0x3E, 0x42, 0x42, 0x3E, 0x02, 0x02, // q
+    0x00, 0x00, 0x3C, 0x42, 0x40, 0x40, 0x40, 0x00, // r
+    0x00, 0x00, 0x3E, 0x40, 0x3C, 0x02, 0x7C, 0x00, // s
+    0x00, 0x20, 0x70, 0x20, 0x20, 0x22, 0x1C, 0x00, // t
+    0x00, 0x00, 0x42, 0x42, 0x42, 0x42, 0x3E, 0x00, // u
+    0x00, 0x00, 0x42, 0x42, 0x42, 0x24, 0x18, 0x00, // v
+    0x00, 0x00, 0x92, 0x92, 0x92, 0x92, 0x6C, 0x00, // w
+    0x00, 0x00, 0x42, 0x24, 0x18, 0x24, 0x42, 0x00, // x
+    0x00, 0x00, 0x42, 0x42, 0x42, 0x3E, 0x02, 0x3C, // y
+    0x00, 0x00, 0x7E, 0x04, 0x18, 0x40, 0x7E, 0x00  // z
+};
+
 uint16_t ssdvPacketCount = 0;
 ssdv_t ssdv;
 uint16_t imageID = 0;
 uint8_t imgBuff[IMG_BUFF_SIZE];
 uint8_t loraBuff[LORA_BUFFER + 1];
 
+//============================================================================
+// Function to color one single pixel in BGR colors
+//============================================================================
+void drawPixel(uint8_t *buf, int x, int y, int w, uint8_t r, uint8_t g, uint8_t b) {
+    int idx = (y * w + x) * 3;
+    buf[idx + 0] = b;
+    buf[idx + 1] = g;
+    buf[idx + 2] = r;
+}
+
+//============================================================================
+// Function to draw a filled rectangle
+//============================================================================
+void drawRect(uint8_t *buf, int x, int y, int rw, int rh, int w, uint8_t r, uint8_t g, uint8_t b) {
+    for (int i = y; i < y + rh; i++) {
+        for (int j = x; j < x + rw; j++) {
+            drawPixel(buf, j, i, w, r, g, b);
+        }
+    }
+}
+
+//============================================================================
+// Function to draw one single scalable white character
+//============================================================================
+void drawSimpleChar(uint8_t *buf, int x, int y, char c, int w, int scale) {
+    int fontIdx = 0; // Space
+
+    // calculate the index in the font array
+    if (c >= '0' && c <= '9') {
+        fontIdx = 1 + (c - '0'); // digits 0-9
+    } else if (c == '.') {
+        fontIdx = 11;
+    } else if (c == ':') {
+        fontIdx = 12;
+    } else if (c == '-') {
+        fontIdx = 13;
+    } else if (c >= 'a' && c <= 'z') {
+        fontIdx = 14 + (c - 'a'); // lower case
+    } else if (c >= 'A' && c <= 'Z') {
+        // Force lower case
+        fontIdx = 14 + (c - 'A'); 
+    }
+
+    // Teken het 8x8 bitmap raster
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            // Indexering in de 1D font array (karakter_index * 8 bytes + rij_index)
+            if (font8x8_basic[fontIdx * 8 + i] & (1 << (7 - j))) {
+                // Schaalfactor toepassen
+                for(int sy=0; sy<scale; sy++) {
+                    for(int sx=0; sx<scale; sx++) {
+                        // Teken de pixel (Wit)
+                        drawPixel(buf, x + (j*scale) + sx, y + (i*scale) + sy, w, 255, 255, 255);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//============================================================================
+// Function to draw a String of scalable text
+//============================================================================
+void drawSimpleText(uint8_t *buf, int x, int y, String text, int w, int scale) {
+    for (int i = 0; i < text.length(); i++) {
+        // 8 pixels width per char * scale + 1 pixel space
+        drawSimpleChar(buf, x + (i * (8 * scale + scale/2)), y, text[i], w, scale);
+    }
+}
 
 //============================================================================
 // Setup the camera and the SD card
-//  
 //============================================================================
 void setupSSDV() {
 
@@ -174,6 +292,9 @@ void SaveHighResPhoto()
   String lFolder = "/" + getSDFolderName();
   String picture_path = lFolder + "/";
   picture_path += getTimeLocationString(); 
+  // Add an random string for pictures when there is no GPS lock
+  picture_path += generateRandomString(8);
+
   picture_path += "_HIRES.jpg"; 
   fs::FS &fs = SD_MMC;
   if(!fs.exists(lFolder))
@@ -206,6 +327,7 @@ void SaveHighResPhoto()
 //============================================================================
 void TakeandSendLowResPhoto()
 {
+  uint8_t * rgb_buf;
   // Set the resolution of the sensor 
   // according to what is in settings.h
   sensor_t * s = esp_camera_sensor_get();
@@ -228,6 +350,7 @@ void TakeandSendLowResPhoto()
   if(!fb) 
   {
     toSerialConsole("Error taking picture\n");
+    esp_camera_fb_return(fb);
     return;
   }
   toSerialConsole(imageID); toSerialConsole("\n");
@@ -240,6 +363,9 @@ void TakeandSendLowResPhoto()
     String lFolder = "/" + getSDFolderName();
     String picture_path = lFolder + "/";
     picture_path += getTimeLocationString(); 
+    // Add an random string for pictures when there is no GPS lock
+    picture_path += generateRandomString(8);
+
     picture_path += "_LOWRES.jpg"; 
     fs::FS &fs = SD_MMC;
     if(!fs.exists(lFolder))
@@ -264,16 +390,89 @@ void TakeandSendLowResPhoto()
     file.close();
   }  
 
-  // Process the camera buffer
-  process_ssdv(fb);
+
+  if (SSDV_LOWRES_TEXT)
+  {
+     // Now create a text overlay with GPS info on the top of the picture 
+     // 1. Convert to RGB888 to be able to write on picture
+     // Very memory intensive 
+     toSerialConsole("Converting image to RGB888\n");
+    
+     rgb_buf = (uint8_t *)ps_malloc(fb->width * fb->height * 3); 
+     toSerialConsole("Memory allocated\n");
+
+     if (fmt2rgb888(fb->buf, fb->len, fb->format, rgb_buf))
+     {
+        toSerialConsole("Image converted\n");
+        
+        // Write the GPS info
+        String lGPSText = getJPGOverlayString();
+        // Draw a black rectangle on the picture 
+        drawRect(rgb_buf, 10, 10, fb->width-20, 15, fb->width, 0, 0, 0);
+        drawSimpleText(rgb_buf, 20, 14, lGPSText, fb->width, 1);
+        
+        // Convert back to JPG
+        uint8_t *jpg_buf = NULL;
+        size_t jpg_len = 0;
+        fb_data_t out_fb;
+        out_fb.width  = fb->width;
+        out_fb.height = fb->height;
+        out_fb.data   = rgb_buf;    
+        out_fb.format = FB_BGR888;  
+        // out_fb.data contains the RGB888 pixels
+        // out_fb.width * out_fb.height * 3 is size of the RGB buffer
+        if (fmt2jpg(out_fb.data, out_fb.width * out_fb.height * 3, 
+                 out_fb.width, out_fb.height, 
+                 PIXFORMAT_RGB888, 80, &jpg_buf, &jpg_len))
+        {
+           // Transmit the picture with the added text over LoRa  
+           toSerialConsole("Transmitting image with text on it\n");
+           process_ssdv(jpg_len,jpg_buf);
+           free(jpg_buf);
+        }
+        else
+        {
+          toSerialConsole("Could not convert back to JPG\n");
+          free(jpg_buf);
+        }
+
+     }
+     else
+     {
+        toSerialConsole("Could not convert the image\n");
+     }
+     free(rgb_buf);
+  }
+  else
+  {
+     //transmit the unaltered camera frame
+     process_ssdv(fb->len,fb->buf);
+  }
 
   // Free the memory
   esp_camera_fb_return(fb);
 }
 
+
+
 //============================================================================
 // Read camera buffer
 //============================================================================
+int iread(uint8_t *buffer,int numBytes,size_t fb_len, uint8_t *fb_buf, int fbIndex ){
+  int bufSize = 0;
+  // have we reached past end of imagebuffer
+  if((fbIndex + numBytes ) < fb_len) {
+    bufSize = numBytes;
+  }  else  {
+    bufSize = fb_len - fbIndex;
+  }
+  // clear the dest buffer
+  memset(buffer,0,numBytes);
+  memcpy(buffer,&fb_buf[fbIndex],bufSize);
+  return bufSize;
+}
+
+/*
 int iread(uint8_t *buffer,int numBytes,camera_fb_t *fb, int fbIndex ){
   int bufSize = 0;
   // have we reached past end of imagebuffer
@@ -287,11 +486,12 @@ int iread(uint8_t *buffer,int numBytes,camera_fb_t *fb, int fbIndex ){
   memcpy(buffer,&fb->buf[fbIndex],bufSize);
   return bufSize;
 }
+*/
 
 //============================================================================
 // Process the camera buffer
 //============================================================================
-void process_ssdv(camera_fb_t *fb)
+void process_ssdv(size_t fb_len, uint8_t *fb_buf)
 {
   int index = 0, c = 0;
   ssdvPacketCount = 0;
@@ -311,7 +511,7 @@ void process_ssdv(camera_fb_t *fb)
     while( (c = ssdv_enc_get_packet(&ssdv)) == SSDV_FEED_ME) 
     {
        // read packet worth of bytes from image buffer
-       index += iread(imgBuff, IMG_BUFF_SIZE, fb, index);
+       index += iread(imgBuff, IMG_BUFF_SIZE, fb_len, fb_buf, index);
        toSerialConsole("Feeding SSDV Encoder, index = ");toSerialConsole(index);toSerialConsole("\n");
        ssdv_enc_feed(&ssdv, imgBuff, IMG_BUFF_SIZE); 
     }
@@ -378,5 +578,41 @@ void sendLoRaSSDV()
    for (i = 0; i < LORA_BUFFER; i++) { buf[i] = loraBuff[i]; }
    Radiolib_assert(radio.transmit((uint8_t*)buf, PACKETLEN));
 }
+
+
+//============================================================================
+// Test function for drawing a line without the library
+//============================================================================
+void drawRedLineDirect(uint8_t *bgr_buf, int width, int height) {
+    // We tekenen een dikke lijn door 5 pixels breed te maken
+    int lineWidth = 5; 
+
+    // Loop door de hoogte van de afbeelding
+    for (int y = 0; y < height; y++) {
+        // Bereken de X-positie voor de diagonaal
+        int x = (y * width) / height;
+
+        // Maak de lijn een beetje dikker voor betere zichtbaarheid
+        for (int lw = 0; lw < lineWidth; lw++) {
+            int currentX = x + lw;
+            
+            // Zorg dat we niet buiten de breedte van de foto tekenen
+            if (currentX < width) {
+                // Bereken de exacte index in de 1D array
+                // Elke pixel is 3 bytes (RGB888)
+                int pixelIndex = (y * width + currentX) * 3;
+
+                // Zet de pixel op Rood (255, 0, 0)
+                // Let op: controleer of je camera RGB of BGR levert.
+                // Als de lijn blauw is, wissel dan index 0 en 2 om.
+                bgr_buf[pixelIndex + 0] = 0x00; // blauw
+                bgr_buf[pixelIndex + 1] = 0x00; // Groen
+                bgr_buf[pixelIndex + 2] = 0xFF; // Rood
+            }
+        }
+    }
+    toSerialConsole("Red line drawn on the buffer\n");
+}
+
 
 #endif

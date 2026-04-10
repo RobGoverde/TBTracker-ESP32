@@ -14,6 +14,9 @@
 #include "HorusBinaryV3.h"
 #include <esp_camera.h>
 
+// Macro for clamping Horus Binary V3 parameters
+#define CLAMP(x, lo, hi) ((x) < (lo) ? (lo) : ((x) > (hi) ? (hi) : (x)))
+
 //============================================================================
 // DATA STRUCTS
 // 
@@ -197,35 +200,15 @@ int build_horus_binary_packet_v3(uint8_t * uncoded_buffer)
   {
     .payloadCallsign  = HORUS_V3_CALLSIGN,
     .sequenceNumber = horusCounterV3++,
-    .timeOfDaySeconds  = UGPS.Hours*3600 + UGPS.Minutes*60 + UGPS.Seconds,
-    .latitude = (int)(UGPS.Latitude*100000),
-    .longitude = (int)(UGPS.Longitude*100000),
-    .altitudeMeters = UGPS.Altitude,
+    .timeOfDaySeconds  = CLAMP(UGPS.Hours*3600 + UGPS.Minutes*60 + UGPS.Seconds,-1,86400),
+    .latitude = CLAMP((int)(UGPS.Latitude*100000),-9000000, 9000000),
+    .longitude = CLAMP((int)(UGPS.Longitude*100000),-18000000, 18000000),
+    .altitudeMeters = CLAMP(UGPS.Altitude,-1000, 50000),
     // Example of a custom parameter
     .extraSensors = {
-          .nCount=2, // Number of custom fields.
+          .nCount=1, // Number of custom fields.
           .arr = {
             // Example of an array of integers 
-            {
-                .name = "speed", // This is transmitted in the packet if .exist/name is true
-                .values = {
-                    .kind = horusInt_PRESENT,
-                    .u = {
-                        .horusInt = {
-                          .nCount = 1,
-                            .arr = {(int)UGPS.Speed},
-                        }
-                    }
-                },
-                .exist = {
-                    .name = false,
-                    .values = false,
-                },
-                
-                
-            }
-            // Example of a string field
-            ,
              {
                  .name = "rf",
                  .values = {
@@ -260,14 +243,14 @@ int build_horus_binary_packet_v3(uint8_t * uncoded_buffer)
 
 
 
-    .velocityHorizontalKilometersPerHour = UGPS.Speed,
-    .gnssSatellitesVisible = UGPS.Satellites,
+    .velocityHorizontalKilometersPerHour = CLAMP(UGPS.Speed,0, 511),
+    .gnssSatellitesVisible = CLAMP(UGPS.Satellites,0, 31),
     // .ascentRateCentimetersPerSecond = vVCalc * 100, // m/s -> cm/s
-    .pressurehPa_x10 = round(ReadPressure()) * 10,
+    .pressurehPa_x10 = CLAMP((uint16_t)round(ReadPressure()) * 10,0,12000),
     .temperatureCelsius_x10 = 
     {
-        .internal = 0*10,
-        .external = round(ReadTemp()) * 10,
+        .internal = CLAMP((int16_t)(round(ReadTemp()) * 10),-1023, 1023),
+        .external = CLAMP((int16_t)(round(ReadTemp()) * 10),-1023, 1023),
         .exist = 
         {
              .internal = false,
@@ -276,10 +259,10 @@ int build_horus_binary_packet_v3(uint8_t * uncoded_buffer)
              .custom2 = false
         }
     },
-    .humidityPercentage = round(ReadHumidity()),
+    .humidityPercentage = CLAMP((uint8_t)round(ReadHumidity()),0,100),
     .milliVolts = 
     {
-      .battery =  ReadVCC()*1000,   
+      .battery =  CLAMP(ReadVCC()*1000,0,16383),   
       .exist = 
        {
          .battery = true,
