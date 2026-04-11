@@ -202,8 +202,7 @@ void SetupFSK() {
   Radiolib_assert(radio.begin(FSK_FREQUENCY, FSK_BITRATE, FSK_FREQDEV, FSK_RXBANDWIDTH_sx127, FSK_POWER, FSK_PREAMBLELENGTH));
 #else
 #if defined (USE_SX1280)  
-radio.setRfSwitchPins(21, 10);
-  Radiolib_assert(radio.beginGFSK(FSK_FREQUENCY, FSK_BITRATE, FSK_FREQDEV, FSK_POWER )); 
+  toSerialConsole("\n FSK not suppoted!");
 #endif
 #endif
 #endif

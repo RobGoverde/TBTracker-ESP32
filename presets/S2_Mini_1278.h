@@ -161,6 +161,9 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define CALLSIGN_SSDV YOUR_CALL   // max 6 chars!
 #define LOWRES_RESOLUTION 2      // 1=320x240, 2=640x480, 3=800x600, 4=1024x768
 #define LOWRES_QUALITY 4         // 0..7 with 7=best. Above 4 the improvements were not detectable
+#define SSDV_LOWRES_SAVE true    // Set to true if you want the low res pictures saved to SD card, false if not
+#define SSDV_LOWRES_TEXT true    // Set to true if you want location and altitude info on the picture (not supported for 320x240 due to size limitations)
+#define CUSTOM_LINE "TBtracker SSDV"            // Experimental custom text line on top of GPS.
 
 //Special
 const int burstPin = -1; //Pin for remote burst command. (Set high when activated.)

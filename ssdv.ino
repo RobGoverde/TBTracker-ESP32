@@ -408,8 +408,9 @@ void TakeandSendLowResPhoto()
         // Write the GPS info
         String lGPSText = getJPGOverlayString();
         // Draw a black rectangle on the picture 
-        drawRect(rgb_buf, 10, 10, fb->width-20, 15, fb->width, 0, 0, 0);
-        drawSimpleText(rgb_buf, 20, 14, lGPSText, fb->width, 1);
+        drawRect(rgb_buf, 10, 10, fb->width-20, 30, fb->width, 0, 0, 0);
+        drawSimpleText(rgb_buf, 20, 14, CUSTOM_LINE, fb->width, 1);
+        drawSimpleText(rgb_buf, 20, 29, lGPSText, fb->width, 1);
         
         // Convert back to JPG
         uint8_t *jpg_buf = NULL;

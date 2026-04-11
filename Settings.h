@@ -19,5 +19,5 @@ Rob Goverde - PD7BOR
 //#include "presets/HT62.h"                  //Heltec HT62. Build tutorial see: https://www.robgoverde.nl/ct62-balloon-tracker-how-to-english/
 //#include "presets/S2_Mini_1278.h"          //For use with HAB tracker board by Jan PE1ANS (SK).
 //#include "presets/S3_Burst.h"              //Custom build on devboard for burstcontrol tesing.
-//#include "presets/S3_Dev_SSDV_1280.h"      //Custom build, SSDV on 2.4GHz with a SX1280 radio.
+#include "presets/S3_Dev_SSDV_1280.h"      //Custom build, SSDV on 2.4GHz with a SX1280 radio.
 //#include "presets/T3S3_SX1280PA.h"         //For the Lilygo T3S3 with SX1280PA (Out of the box use.)
