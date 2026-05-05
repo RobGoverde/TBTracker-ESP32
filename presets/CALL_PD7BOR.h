@@ -10,11 +10,11 @@
 
 //LoRa Setup:
 #define YOUR_LORA_CALL "PD7BOR-L" //Differen setup because it needs the SSID in it. (For now.)
-#define LORA_APRS_SSID "-11"
+#define LORA_APRS_SSID "-12"
 
 //Horus setup:
 #define PAYLOAD_ID_V1 0              // For Horus V1. See above. Set to 0 if you do not have a payload ID
-#define PAYLOAD_ID_V2 256            // For Horus V2. See above. Set to 256 if you do not have a payload ID
-#define HORUS_V3_CALLSIGN "N0CALL"   // Horus V3 callsign and is free to choose but keep it AS SHORT AS POSSIBLE (adding V3 in the call is not necessary and not recommended)
+//#define PAYLOAD_ID_V2 256            // For Horus V2. See above. Set to 256 if you do not have a payload ID
+#define HORUS_V3_CALLSIGN "PD7BOR-CAM"   // Horus V3 callsign and is free to choose but keep it AS SHORT AS POSSIBLE (adding V3 in the call is not necessary and not recommended)
 
 

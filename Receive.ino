@@ -57,13 +57,14 @@ void ProcessRXPacket() {
     #endif
 
     #if defined(REPLY_MODE)
+    #if defined(USE_SX127X)
     toSerialConsole("Replymode OK\t");
     int statem = radio.beginFSK(FSK_FREQUENCY, FSK_BITRATE, FSK_FREQDEV, FSK_RXBANDWIDTH_sx127, FSK_POWER, FSK_PREAMBLELENGTH, FSK_ENABLEOOK);
     MorseClient morse(&radio);
-    statem = morse.begin(437.6);
+    statem = morse.begin(437.604);
     morse.print("RR 59");
     #endif
-
+    #endif
   }
 
 

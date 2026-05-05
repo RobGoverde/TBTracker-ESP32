@@ -12,7 +12,7 @@
 #include "esp32-hal-cpu.h"
 #include "horus_l2.h"
 #include "HorusBinaryV3.h"
-#include <esp_camera.h>
+//#include <esp_camera.h>
 
 // Macro for clamping Horus Binary V3 parameters
 #define CLAMP(x, lo, hi) ((x) < (lo) ? (lo) : ((x) > (hi) ? (hi) : (x)))

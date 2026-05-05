@@ -4,34 +4,34 @@
 //============================================================================
 //Settings based on TBTracker-ESP32 by Roel Kroes.
 
- //SPI:
-  #define SCK 36
-  #define MISO 37
-  #define MOSI 35
-  #define CS 34
+  //SPI:
+  #define SCK 4
+  #define MISO 12
+  #define MOSI 13
+  #define CS 33
   
   //Radio:
-  #define PIN_NSS 34
-  #define PIN_DIO0 38
-  #define PIN_BUSY 4     
-  #define PIN_RESET 33
-  #define PIN_DIO1 3
-  #define PIN_DIO2 4  
+  #define PIN_NSS 33
+  #define PIN_DIO0 2
+  #define PIN_BUSY -1     
+  #define PIN_RESET 15
+  #define PIN_DIO1 14
+  #define PIN_DIO2 -1  
   #define USE_TCXO 0.0
   #define USE_SX127X //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
   
 //GPS:
-static const int Rx = -1, Tx = 39;     // This will probably be different for your board
+static const int Rx = -1, Tx = 3;     // This will probably be different for your board
 static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are 4800 baud.
   
 //Sensors:
   // Comment the five lines below out if you do not use a voltage divider
   //============================================================================
-  #define USE_VOLTAGE_INFO          // Uncomment this if you use a voltage divider
-  #define VOLTAGE_IN_PIN 2          // Pin number to which the voltage divider is connected
-  #define VOLTAGE_DIVIDER_R1 30000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
-  #define VOLTAGE_DIVIDER_R2 30000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
-  #define VOLTAGE_DEVIATION  0.0    // Will be added as an error offset to the calculated result of the voltage divider.In a perfect world this should be 0.00.
+  // #define USE_VOLTAGE_INFO          // Uncomment this if you use a voltage divider
+  // #define VOLTAGE_IN_PIN 3          // Pin number to which the voltage divider is connected
+  // #define VOLTAGE_DIVIDER_R1 100000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
+  // #define VOLTAGE_DIVIDER_R2 100000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
+  // #define VOLTAGE_DEVIATION  0.0    // Will be added as an error offset to the calculated result of the voltage divider.In a perfect world this should be 0.00.
   // #define USE_VOLTAGE_IN_APRS     // If you uncomment this, the voltage information will be added to the APRS comment field
   // #define SDA_PIN 46  // your SDA pin for the I2C protocol (needed for BME280 sensor)
   // #define SCL_PIN 2  // your SCL pin for the I2C protocol (needed for BME280 sensor) 
@@ -41,7 +41,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
  
 //Lora
 #define LORA_ENABLED true        // Set to true if you want LoRa transmissions
-#define RECEIVING_ENABLED true  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
+#define RECEIVING_ENABLED false  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
 #define LORA_PAYLOAD_ID YOUR_LORA_CALL   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
 #define LORA_FREQUENCY 432.662    // in MHz
 #define LORA_MODE 2              // Mode 2 is usually used for simple telemetry data
@@ -53,8 +53,8 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define LORA_CODERATE 7       // Do not change, change LORA_MODE instead
 #define LORA_PREFIX "$$"      // Prefix for "Telemetry". Some older LoRa software does not accept a prefix of more than 2x "$"
 #define LORA_SYNCWORD 0x12    // Default syncword
-#define LORA_POWER 2         // in dBm between 2 and 17. 10 = 10mW (recommended)
-#define LORA_CURRENTLIMIT 100
+#define LORA_POWER 17         // in dBm between 2 and 17. 10 = 10mW (recommended)
+#define LORA_CURRENTLIMIT 120
 #define LORA_PREAMBLELENGTH 8
 #define LORA_GAIN 0
 
@@ -64,7 +64,7 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define LORA_APRS_PL_ENABLED true        // Set to True if you want LORA-APRS transmissions on the Poland frequency 434.855 (LORA_APRS_ENABLED must be set to true)
 #define LORA_APRS_UK_ENABLED true        // Set to True if you want LORA-APRS transmissions on the UK frequency 439.9125 (LORA_APRS_ENABLED must be set to true)
 #define LORA_APRS_PAYLOAD_ID YOUR_CALL    // CHANGE THIS. This will show on Sondehub. For LORA-APRS this should be a HAM call without SSID.
-#define LORA_APRS_SSID "-11"             // 11 is the symbol for balloon. Use quotes like this: "-11"
+#define LORA_APRS_SSID "-12"             // 11 is the symbol for balloon. Use quotes like this: "-11"
 #define LORA_APRS_MODE 99                // Do not change
 #define LORA_APRS_MODE_PL 98             // Do not change
 #define LORA_APRS_MODE_UK 97             // Do not change
@@ -79,8 +79,8 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 // HORUS V3 is currently the preferred mode.
 //============================================================================
 #define HORUS_V1_ENABLED false       // Set to true if you want HorusBinary V1 transmissions (you can do V1, V2 and V3 transmissions on the same tracker)
-#define HORUS_V2_ENABLED true       // Set to true if you want HorusBinary V2 transmissions
-#define HORUS_V3_ENABLED false       // Set to true if you want HorusBinary V3 transmissions (recommended Horus mode)
+#define HORUS_V2_ENABLED false       // Set to true if you want HorusBinary V2 transmissions
+#define HORUS_V3_ENABLED true       // Set to true if you want HorusBinary V3 transmissions (recommended Horus mode)
 #define HORUS_V3_CUSTOM_FIELDS       // if defined will include custom fields into the Horus transmission
                                      // two fields have been already added as custom fields in this code:
                                      // 1. gps speed (currently set to 'do not show' in TBTracker-ESP32.ini)
@@ -89,14 +89,14 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
                                      // Note that including custom fields will SIGNIFICANTLY increase transmission length!
                                      // Just comment the line out if you do not want custom fields
 #define PAYLOAD_ID_V1 0              // For Horus V1. See above. Set to 0 if you do not have a payload ID
-#define PAYLOAD_ID_V2 580            // For Horus V2. See above. Set to 256 if you do not have a payload ID
+#define PAYLOAD_ID_V2 256            // For Horus V2. See above. Set to 256 if you do not have a payload ID
 #define HORUS_FREQUENCY_1 437.600    // Horus can transmit on two frequencies (434.714, 437.600 is kind of standard in Europe )
 #define HORUS_FREQUENCY_2 0.0    // Just set to 0.0 if you only want 1 frequency
 #define HORUS_POWER 13               // In dBm. Valid values +2 to +17 dBm. 10dBm = 10mW, 13dBm=20mW (recommended)
 #define HORUS_BAUD 100               // recommended 50 (8MHz processor) or 100 baud (16MHz, better processor or esp32)
 #define HORUS_SPACING 270            // NOTE: This results in a shift of 244 Hz on the sx127x and RF69 due to the PLL Resolution of those chips is 61Hz
 #define HORUS_LOOPTIME 40            // Transmit Horus every xx seconds
-#define HORUS_FREQ_OFFSET 0.004        // Frequency deviation in MHz. This will be added to HORUS_FREQUENCY
+#define HORUS_FREQ_OFFSET 0.002        // Frequency deviation in MHz. This will be added to HORUS_FREQUENCY
 
 //AFSK:
 #define APRS_AFSK_ENABLED false      // Set this to true if you want APRS transmissions
@@ -140,8 +140,8 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 
 // SSDV 
 // Uncomment below to activate SSDV:
-//#define USE_SSDV   
-#define CAMERA_MODEL_ESP32S3_EYE  //See list in TBTracker.
+#define USE_SSDV   
+#define CAMERA_MODEL_AI_THINKER  //See list in TBTracker.
 #define FLIP_HORIZONTAL true      // Camera is usually mounted in selfie mode. Set to true if the picture needs mirroring hotizontally
 #define FLIP_VERTICAL false       // Set to true if the picture needs mirroring vertically (usually not the case)
 
@@ -161,8 +161,8 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 #define CALLSIGN_SSDV YOUR_CALL   // max 6 chars!
 #define LOWRES_RESOLUTION 2      // 1=320x240, 2=640x480, 3=800x600, 4=1024x768
 #define LOWRES_QUALITY 4         // 0..7 with 7=best. Above 4 the improvements were not detectable
-#define SSDV_LOWRES_SAVE true    // Set to true if you want the low res pictures saved to SD card, false if not
-#define SSDV_LOWRES_TEXT true    // Set to true if you want location and altitude info on the picture (not supported for 320x240 due to size limitations)
+#define SSDV_LOWRES_SAVE false    // Set to true if you want the low res pictures saved to SD card, false if not
+#define SSDV_LOWRES_TEXT false    // Set to true if you want location and altitude info on the picture (not supported for 320x240 due to size limitations)
 #define CUSTOM_LINE "TBtracker SSDV"            // Experimental custom text line on top of GPS.
 
 //Special

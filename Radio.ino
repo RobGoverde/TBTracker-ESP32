@@ -155,6 +155,7 @@ void SetupHorus(float lFreq) {
 #else
 #if defined (USE_RF69)  
   Radiolib_assert(radio.begin(FSK_FREQUENCY, FSK_BITRATE, FSK_FREQDEV, FSK_RXBANDWIDTH_sx127, FSK_POWER, FSK_PREAMBLELENGTH));
+  radio.setOutputPower(20,true);
 #endif
 #endif
 #endif

@@ -5,33 +5,33 @@
 //Settings based on TBTracker-ESP32 by Roel Kroes.
 
  //SPI:
-  #define SCK 36
-  #define MISO 37
-  #define MOSI 35
-  #define CS 34
+  #define SCK 5
+  #define MISO 19
+  #define MOSI 27
+  #define CS 18
   
   //Radio:
-  #define PIN_NSS 34
-  #define PIN_DIO0 38
-  #define PIN_BUSY 4     
-  #define PIN_RESET 33
-  #define PIN_DIO1 3
-  #define PIN_DIO2 4  
+  #define PIN_NSS 18
+  #define PIN_DIO0 26
+  #define PIN_BUSY -1     
+  #define PIN_RESET 23
+  #define PIN_DIO1 33
+  #define PIN_DIO2 32  
   #define USE_TCXO 0.0
-  #define USE_SX127X //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
+  #define USE_RF69 //Chose: USE_SX127X, USE_RF69, USE_SX1262, USE_SX1268, USE_LLCC68, USE_SX1280, USE_SX1280PA
   
 //GPS:
-static const int Rx = -1, Tx = 39;     // This will probably be different for your board
+static const int Rx = -1, Tx = 13;     // This will probably be different for your board
 static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are 4800 baud.
   
 //Sensors:
   // Comment the five lines below out if you do not use a voltage divider
   //============================================================================
-  #define USE_VOLTAGE_INFO          // Uncomment this if you use a voltage divider
-  #define VOLTAGE_IN_PIN 2          // Pin number to which the voltage divider is connected
-  #define VOLTAGE_DIVIDER_R1 30000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
-  #define VOLTAGE_DIVIDER_R2 30000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
-  #define VOLTAGE_DEVIATION  0.0    // Will be added as an error offset to the calculated result of the voltage divider.In a perfect world this should be 0.00.
+  // #define USE_VOLTAGE_INFO          // Uncomment this if you use a voltage divider
+  // #define VOLTAGE_IN_PIN 3          // Pin number to which the voltage divider is connected
+  // #define VOLTAGE_DIVIDER_R1 100000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
+  // #define VOLTAGE_DIVIDER_R2 100000 // in Ohm 100K is a good value for voltage between 2 and 6 volts
+  // #define VOLTAGE_DEVIATION  0.0    // Will be added as an error offset to the calculated result of the voltage divider.In a perfect world this should be 0.00.
   // #define USE_VOLTAGE_IN_APRS     // If you uncomment this, the voltage information will be added to the APRS comment field
   // #define SDA_PIN 46  // your SDA pin for the I2C protocol (needed for BME280 sensor)
   // #define SCL_PIN 2  // your SCL pin for the I2C protocol (needed for BME280 sensor) 
@@ -40,8 +40,8 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
 //Modulation:
  
 //Lora
-#define LORA_ENABLED true        // Set to true if you want LoRa transmissions
-#define RECEIVING_ENABLED true  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
+#define LORA_ENABLED false        // Set to true if you want LoRa transmissions
+#define RECEIVING_ENABLED false  // Set to true if you want the tracker to listen on the LoRa frequency for incoming packets
 #define LORA_PAYLOAD_ID YOUR_LORA_CALL   // This will show on Sondehub. Payload ID for LoRa protocol. CHANGE THIS!
 #define LORA_FREQUENCY 432.662    // in MHz
 #define LORA_MODE 2              // Mode 2 is usually used for simple telemetry data
@@ -89,24 +89,24 @@ static const uint32_t GPSBaud = 9600;  // modern devices are 9600 baud. some are
                                      // Note that including custom fields will SIGNIFICANTLY increase transmission length!
                                      // Just comment the line out if you do not want custom fields
 #define PAYLOAD_ID_V1 0              // For Horus V1. See above. Set to 0 if you do not have a payload ID
-#define PAYLOAD_ID_V2 580            // For Horus V2. See above. Set to 256 if you do not have a payload ID
+#define PAYLOAD_ID_V2 256            // For Horus V2. See above. Set to 256 if you do not have a payload ID
 #define HORUS_FREQUENCY_1 437.600    // Horus can transmit on two frequencies (434.714, 437.600 is kind of standard in Europe )
 #define HORUS_FREQUENCY_2 0.0    // Just set to 0.0 if you only want 1 frequency
-#define HORUS_POWER 13               // In dBm. Valid values +2 to +17 dBm. 10dBm = 10mW, 13dBm=20mW (recommended)
+#define HORUS_POWER 10               // In dBm. Valid values +2 to +17 dBm. 10dBm = 10mW, 13dBm=20mW (recommended)
 #define HORUS_BAUD 100               // recommended 50 (8MHz processor) or 100 baud (16MHz, better processor or esp32)
 #define HORUS_SPACING 270            // NOTE: This results in a shift of 244 Hz on the sx127x and RF69 due to the PLL Resolution of those chips is 61Hz
-#define HORUS_LOOPTIME 40            // Transmit Horus every xx seconds
-#define HORUS_FREQ_OFFSET 0.004        // Frequency deviation in MHz. This will be added to HORUS_FREQUENCY
+#define HORUS_LOOPTIME 10            // Transmit Horus every xx seconds
+#define HORUS_FREQ_OFFSET 0.0025        // Frequency deviation in MHz. This will be added to HORUS_FREQUENCY
 
 //AFSK:
-#define APRS_AFSK_ENABLED false      // Set this to true if you want APRS transmissions
+#define APRS_AFSK_ENABLED true      // Set this to true if you want APRS transmissions
 #define APRS_AFSK_CALLSIGN YOUR_CALL  // CHANGE THIS and use quotation marks. This will show on Sondehub. For APRS this should be a HAM call without SSID.
-#define APRS_AFSK_LOOPTIME 180       // Transmit APRS every xx seconds. Set this to something >= 120 seconds
+#define APRS_AFSK_LOOPTIME 20       // Transmit APRS every xx seconds. Set this to something >= 120 seconds
 #define APRS_AFSK_SSID 11            // SSID. You can use 11 for a HAM balloon
 #define APRS_AFSK_PREAMBLE 100       // I got good results with 100 but you can go as low as 8
 #define APRS_AFSK_POWER 13           // In dBm. Valid values +2 to +17 dBm. 10dBm = 10mW, 13dBm=20mW
-#define APRS_AFSK_FREQUENCY 432.500  // 70cm APRS frequency. Seems still experimental
-#define APRS_AFSK_FREQ_OFFSET 0.0    // Frequency deviation in MHz. This will be added to APRS_AFSK_FREQUENCY
+#define APRS_AFSK_FREQUENCY 437.600  // 70cm APRS frequency. Seems still experimental
+#define APRS_AFSK_FREQ_OFFSET 0.0025    // Frequency deviation in MHz. This will be added to APRS_AFSK_FREQUENCY
 
 //FSK
 #define FSK_FREQUENCY 434.0
