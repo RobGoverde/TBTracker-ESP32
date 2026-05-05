@@ -1,10 +1,16 @@
-# In this fork I want to implement some own ideas for TBTracker by Roel Kroes.
+# Welcome to my fork of TBTracker-ESP32 by Roel Kroes.
 
-- 2.4GHz support for faster SSDV transfer. (2.4GHz tested ok for telemetry, SSDV first test successful.) **[Added to main.]**
-- Remote controlled burst through a LoRa command. (Not yet implemented, branch made.)
-- Preset choices instead of changing multiple settings. (Not yet implemented, branch made.)
+## First of all:
+All credits go to the original creator of TBTracker, Roel Koes (PD7R).
+Check it out here: https://github.com/RoelKroes/TBTracker-ESP32
 
-# 2.4 GHz support
+The things I do with this fork are build on his work, i'm only tweaking it a bit to some ideas I have.
+
+This is in no way a replacement of the original and the goal is to keep it up do date with only my tweaks changed.
+
+# Some of the added fork features:
+
+## 2.4 GHz support
 This fork adds LoRa 2.4GHz support with a SX1280 radio module to TBTracker-ESP32.
 It is developed and tested on a LilyGO T3-S3 SX1280PA board but future tracker builds are on the way.
 The main idea of this 2.4 GHz LoRa usage is to get more transfer speed on SSDV images, but also just to give the opertunity to experiment with 2.4 GHz RF.
@@ -25,167 +31,21 @@ Note: Not all countries allow LoRa signals to be transmitted on 2.4GHz with a po
 
 This is still very much experimental.
 
-# TBTracker-ESP32
+## Presets
+I used to have a lot of copy's of TBTracker-ESP32 on my computer, different versions, different boards.
+The idea of presets is to have only one copy of TBTracker and multiple presets you can easily activate for different boards and setups.
+This way its easier to keep TBT at its latest version (not having to update all the copy's of TBT) and easier to set up, especcialy when the board you use is already in the existing presets folder.
+It also serves as a hardware cheatsheet of where to connect the pins for the specific board you are using.
 
-A Plug and Play High Altitude Balloon tracker for ESP32. Supports LoRa, LoRa-APRS, APRS, RTTY, Horus V1 4FSK, Horus V2 4FSK, Horus V3 4FSK and SSDV using esp32 camera's.
+The idea is to make this preset folder a database of different setups that keeps on growing over time as more boards are added.
 
-TBTracker-ESP32 is an Arduino sketch for a tracker for high altitude weather or scientific balloons. 
-It supports sending telemetry data in mulitple formats:
+## Wiki
+I also want to create a easy to read Wiki that is also applicable to the original version of TBTracker ESP32.
+Covering everything from the basic hardware to actually launching a amateur balloon.
+My goal is to make it a light read and not go full serious-technical, it is a hobby afterall.
 
-- RTTY
-- LoRa
-- LoRa-APRS (with environmental data in the comment field)
-- APRS (AFSK)
-- Horus 4FSK V1
-- Horus 4FSK V2
-- Horus 4FSK V3
-- SSDV (both lowres over LoRa and highres saved to SD card)
+## Remote Burst
+This idea came when taling about the recovery of SSDV balloons. The idea is to remotely send a (safeword secured) LoRa command to drop the payload.
+For this I have made a very basic "Burst Controller" that sends this word. This is still very much in development.
+A feature I have added recently is a Reply Mode, where instead of actually dropping the payload it sends a "RR 59" in CW on the 437.600MHz frequency.
 
-You can select multiple modes or just a single mode.
-
-It is designed to send telemetry data in the correct format for https://amateur.sondehub.org.
-
-If you transmit SSDV, and your transmission is received by the Sondehub community, your pictures will be visible at https://ssdv.habhub.org
-
-The code is written in the Arduino IDE for ESP32 with a GPS module and a LoRa or FSK module like the sx1278 or sx1276 or Hope RFM9x.
-
-# Library
-
-You will need to install two extra Arduino library from the library manager:
-
-- Radiolib by Jan Gromes
-- TinyGPSPlus by Mikal Hart
-
-The program also supports the BME280 environment sensor. If you enable that code, you will need to install the BME280 library by Tyler Glenn from the Arduino library manager.
-
-# Hardware
-
-The minimal hardware configuration you need is:
-
-- ESP32 or ESP32S2 board
-- GPS module (recommended Ublox Neo or ATGM336H)
-- Lora module (sx1278, sx1276, sx1268, sx1262, RF69, LLCC68 (LLCC68 is not suitable for LoRa-APRS) or Hope RFM9x module)
-- If you use SSDV: Freenove or compatible ESP32S3 with a camera interface
-
-# Hardware example
-
-Rob Goverde (PD7BOR) made a 2.5-gram ultralight tracker with only four parts. Best of all, he documented his project beautifully.
-You can find his work here: https://www.robgoverde.nl/ct62-ballon-tracker-how-to/
-It's written in Dutch, but if you don't speak the language, Google Translate should be a big help.
-
-<img src="example_build1.jpg" title="" alt="" width="332">
-
-# Horusbinary_radiolib
-
-The radio related basecode for this sketch was taken from the horusbinary_radiolib project.
-See: https://github.com/projecthorus/horusbinary_radiolib
-
-# Horusbinary V3
-
-The Horus Binary v3 format is a protocol that is flexible enough to allow customization while still keeping a small overall size.
-See: https://github.com/xssfox/horusbinaryv3
-
-# Project Horus
-
-Project Horus is a Amateur Radio High Altitude Ballooning project based in Adelaide, Australia
-You can download your decoders from there.
-See: https://github.com/projecthorus
-
-# SSDV
-
-As of Version 0.5.1 TBTracker supports SSDV. I used code for SSDV from [Philip Heron]([fsphil (Philip Heron) · GitHub](https://github.com/fsphil)) and was inspired by the work of [Kevin Walton]([KevWal (Kevin Walton) · GitHub](https://github.com/KevWal)). This is still very much experimental. We tested it using an ESP32-S3 N16R8 Devboard with 16MB Flash, 8MB PSRAM and a camera interface. I recommend the OV5640 camera's. 
-
-With SSDV, a GPS, a sx1278, a SD card and a BME280 sensor, pin assignment becomes critical. Settings.h has a working example of the pins you can use with the ESP32-S3 N16R8.
-
-Powering the ESP32S3 with a camera and SD card is difficult. The best way to power the whole thing is through the right USB connector. However, you can power the chip through the 5V pin. But then you need to supply the 5V pin with at least 6V. You might get away with 5V if you remove the power LED from the board.
-
-The board I used:
-
-![](esp32s3.png)
-
-I used these board settings:
-
-![](boardsettings.jpeg)
-
-# Installation
-
-Connect your LoRa and GPS modules to your ESP board and change the values in the Settings.h file. See the comments in the Settings.h file. Compile in the Arduino IDE and upload to your board.
-
-# APRS (AFSK)
-
-At this moment APRS with AFSK only works on the "original" ESP32 series and not on the ESP32-Sx and ESP32-Cx versions. 
-
-# Versions
-
-V0.5.3
-
-- Optionally show GPS data on transmitted SSDV pictures using a bitmap font
-- Solved a bug which caused Horus Binary V3 packets to not decode [**issue #14**](https://github.com/RoelKroes/TBTracker-ESP32/issues/14)
-- Restructured the settings file (again)
-
-V0.5.2
-
-- Save pictures in a map with the current date as name
-- Make each picture filename unique
-- Low Res SSDV pictures  can now optionally be saved to SD card
-- You can now add a number of seconds between taking Low Res pictures for SSDV.
-
-V0.5.1
-
-- Added support for SSDV over LoRa and saving to SD card
-
-V0.4.1
-
-- Added support for the RF69 module
-- Repaired the RTTY mode for all modules
-- Solved sevral small bugs
-- Optimized some code
-
-V0.4.0
-New variables were defined in settings.h, so use the settings.h file that comes with this version
-
-- Horus Binary V3 compatibility (including custom fields)
-- Radiolib v7.5.0 compatibility
-- Serial console output is now optional 
-- Optimized some code 
-- Disable Bluetooth if on the board
-- Better setup information printed on startup
-
-V0.3.3
-New variables were defined in settings.h, so use the settings.h file that comes with this version
-
-- Radiolib v7.4.0 compatibility
-- Fixed some bugs with LoRa-APRS transmissions
-- Added extra documentation in the settings.h file
-- Added a GPS communication test at startup so you can check the correct setup of your GPS module
-- Add optional extra fields in the LoRa-APRS comment string: Battery voltage, Temperature, Humidity, Air pressure
-
-V0.3.2
-
-- Radiolib backward version compatibility for Horus FSK4 in FSK4_MOD module. 
-- Compatibility with SX1262
-- Free text with LoRa APRS 
-- Added module to print version and settings info
-
-V0.3.0:
-This is a major release, so expects some bugs
-
-- Added assertions for the Radiolib calls. When a Radiolib call fails, the program will halt for 60secs. After that the esp32 will reboot.
-- Added dual frequency for the Horus modes. So, if you want, the program can send Horus call on two different frequencies just like many of the RS41 balloons do.
-- Added frequency offsets to all the modes. The current batches of LoRa modules do not have very accurate oscillators on board. You can now specify a frequency offset.
-- Added a calibration mode. Just a simple function to determine the frequency error of your specific module
-- Added support for SX126x and the cheap LLCC68 modules. Note that the LLCC68 modules cannot do LoRa APRS
-- Added very basic support for APRS (besides the already existing LoRa-APRS). This function iscurrently not really stable. Some RF chips work correctly, some do not.
-- Added basic option for geofencing. You can now specify specific LoRa-APRS frequencies for when your tracker is in a specific country.
-- Added support for a voltage divider so voltage can be tracked better
-- Added support for the BME280 sensor
-- Improved programming comments
-
-V0.1.1:  
-
-- Added a temporary APRS device-ID (APZTBT)
-- Added a timestamp to to the APRS packets for better compatibility with Sondehub
-
-V0.1.0:
-
-- Initial commit
